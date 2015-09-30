@@ -192,7 +192,7 @@ module.exports = function (grunt) {
     
     //#region Upload
 
-    grunt.registerMultiTask('azure-blob-upload', "Azure Blob Upload - Allow to upload file to Windows Azure Storage Blobs", function () {
+    grunt.registerMultiTask('azure-blob-upload-manually', "Azure Blob Upload - Allow to upload file to Windows Azure Storage Blobs", function () {
         var azure = require("azure"),
 
             done = this.async(),
