@@ -1,6 +1,13 @@
-# grunt-azure [![NPM version](https://badge.fury.io/js/grunt-azure.png)](http://badge.fury.io/js/grunt-azure)
+# grunt-azure-manually (is a fork of grunt-azure [![NPM version](https://badge.fury.io/js/grunt-azure.png)](http://badge.fury.io/js/grunt-azure))
 
 [Grunt][grunt] Azure - Allows to use Windows Azure Storage Blobs / Tables / Queues inside Grunt.
+
+## Differences
+
+ (fork of version 0.1.2)
+
+ If when downloading files some of the files have not been transferred, the task will resubmit these
+ files (requires manual operation).
 
 ## Getting Started
 

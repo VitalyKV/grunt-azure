@@ -24,12 +24,18 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+var ProgressBar = require('progress');
+
 module.exports = function (grunt) {
     var _ = grunt.util._,
         fs = require("fs"),
         async = require("async"),
         mime = require("mime"),
         path = require("path"),
+        readline = require('readline').createInterface({
+            input: process.stdin,
+            output: process.stdout
+        }),
 
         filesystem = require("../lib/filesystem");
     
@@ -82,17 +88,29 @@ module.exports = function (grunt) {
     
     function uploadFiles(service, files, params, callback) {
         var container = params.container;
-        
+
+        var skippedFiles = [];
+
+        var bar = new ProgressBar('uploading [:bar] :percent :elapseds', {
+            width: 20,
+            total: files.length
+        });
+
         async.eachSeries(
             files,
             function (file, callback) {
+                //console.log(count++, file);
                 var props = _.extend({}, params.blobProperties);
                 props.contentType = props.contentTypeHeader = mime.lookup(file.src);
             
                 service.createBlockBlobFromLocalFile(container, file.dest, file.src, props, function (err, result) {
                     if (!err) {
                         grunt.verbose.writeln(file.src + " uploaded to container: " + container + " at url: " + file.dest);
+                    }else{
+                        skippedFiles.push(file);
                     }
+                    bar.tick();
+                    err = null;
                 
                     callback(err, result);
                 });
@@ -106,9 +124,22 @@ module.exports = function (grunt) {
                     callback(err);
                     return;
                 }
-            
-                grunt.log.ok(files.length + " file(s) uploaded to Windows Azure !");
-                callback();
+
+                if (skippedFiles.length){
+                    readline.question('Can\'t upload ' + skippedFiles.length + ' file(s), retry now? (y/n): ', function(str){
+                        if (str === 'y'){
+                            uploadFiles(service, skippedFiles, params, callback)
+                        }else{
+                            //grunt.log.ok(files.length + " file(s) uploaded to Windows Azure !");
+                            grunt.log.ok("files uploaded to Windows Azure!");
+                            callback();
+                        }
+                    });
+                }else{
+                    //grunt.log.ok(files.length + " file(s) uploaded to Windows Azure !");
+                    grunt.log.ok("files uploaded to Windows Azure!");
+                    callback();
+                }
             });
     }
     
@@ -185,7 +216,7 @@ module.exports = function (grunt) {
         
         var files = getFileMap(this.files),
             service = azure.createBlobService.apply(azure, params.serviceOptions).withFilter(new azure[params.retryFilter]());
-        
+
         async.series(
             [
                 function (callback) { ensureContainer(service, params, callback); },

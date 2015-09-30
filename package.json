@@ -1,5 +1,5 @@
 {
-  "name": "grunt-azure",
+  "name": "grunt-azure-manualy",
   "description": "Grunt Azure - Allows to use Windows Azure Storage Blobs / Tables / Queues inside Grunt",
   "version": "0.1.2",
   "homepage": "https://github.com/spatools/grunt-azure.git",
@@ -20,10 +20,11 @@
     "grunt-contrib-clean": "~0.5.0"
   },
   "dependencies": {
-    "grunt": "0.4.x",
-    "azure": "^0.10.0",
     "async": "^0.9.0",
-    "mime": "^1.2.11"
+    "azure": "^0.10.0",
+    "grunt": "0.4.x",
+    "mime": "^1.2.11",
+    "progress": "^1.1.8"
   },
   "keywords": [
     "gruntplugin",
