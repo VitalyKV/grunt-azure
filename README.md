@@ -4,10 +4,15 @@
 
 ## Differences
 
- (fork of version 0.1.2)
+ (fork of version 0.1.1)
 
  If when downloading files some of the files have not been transferred, the task will resubmit these
  files (requires manual operation).
+
+ `uploading [====================] 100% 995.6s`
+
+ `Can't upload 20 file(s), retry now? (y/n):`
+
 
 ## Getting Started
 
@@ -16,7 +21,7 @@ Install this grunt plugin next to your project's gruntfile with: `npm install gr
 Then add this line to your project's `Gruntfile.js` :
 
 ```javascript
-grunt.loadNpmTasks('grunt-azure');
+grunt.loadNpmTasks('grunt-azure-manually');
 ```
 
 Then specify your config:
@@ -30,7 +35,7 @@ grunt.initConfig({
 ### Uploading Blob : ([more informations][blob-upload-options])
 
 ```javascript
-    'azure-blob-upload': {
+    'azure-blob-upload-manually': {
         dist: {
             options: {
                 serviceOptions: '{connectionstring}',
