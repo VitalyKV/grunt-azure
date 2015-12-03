@@ -31,7 +31,7 @@ module.exports = function (grunt) {
         path = require("path"),
 
         azure = require("azure"),
-        storage = require("grunt"),
+        storage = require("azure-storage"),
         EntityGenerator = storage.TableUtilities.entityGenerator,
 
         filesystem = require("../lib/filesystem");
